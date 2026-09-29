@@ -1,0 +1,245 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   Spark 轮足机器人实验平台 · 设计基线
+   色板取自 UI/01-dashboard.png：浅蓝灰画布 + 白色卡片 + 蓝色主色
+   ============================================================ */
+
+@theme {
+  --color-canvas: #eef3f9;
+  --color-surface: #ffffff;
+  --color-line: #e6ecf3;
+  --color-line-strong: #d7e0ea;
+
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+
+  --color-ink: #0f1e33;
+  --color-ink-soft: #475569;
+  --color-ink-muted: #7c8da4;
+
+  --color-state-ok: #16a34a;
+  --color-state-warn: #d97706;
+  --color-state-bad: #dc2626;
+
+  --font-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', 'Source Han Sans SC', 'Noto Sans CJK SC', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* 键盘可达性：统一焦点环 */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-200);
+  }
+}
+
+@layer components {
+  /* ---------- 卡片 ---------- */
+  .card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    box-shadow: 0 1px 2px rgb(15 30 51 / 0.04), 0 8px 24px -16px rgb(15 30 51 / 0.16);
+  }
+
+  .card-pad {
+    padding: 1.25rem;
+  }
+
+  /* ---------- 登录/注册背景 ---------- */
+  .auth-canvas {
+    position: relative;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #eef4fb;
+  }
+
+  .auth-canvas__flow {
+    position: absolute;
+    inset: -40%;
+    background: linear-gradient(
+      135deg,
+      #e6f0ff 0%,
+      #eef7ff 28%,
+      #e9f6fb 52%,
+      #eef1ff 76%,
+      #e6f0ff 100%
+    );
+    background-size: 300% 300%;
+    animation: auth-flow 24s ease-in-out infinite;
+  }
+
+  .auth-canvas__orb {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    filter: blur(2px);
+  }
+
+  .auth-canvas__orb--brand {
+    width: 52vw;
+    height: 52vw;
+    max-width: 640px;
+    max-height: 640px;
+    top: -18%;
+    left: -12%;
+    background: radial-gradient(
+      circle at 45% 45%,
+      rgb(59 130 246 / 0.28) 0%,
+      rgb(147 197 253 / 0.14) 45%,
+      transparent 70%
+    );
+    animation: auth-drift 18s ease-in-out infinite;
+  }
+
+  .auth-canvas__orb--cyan {
+    width: 44vw;
+    height: 44vw;
+    max-width: 540px;
+    max-height: 540px;
+    right: -14%;
+    bottom: -22%;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgb(6 182 212 / 0.22) 0%,
+      rgb(165 243 252 / 0.12) 45%,
+      transparent 70%
+    );
+    animation: auth-drift 22s ease-in-out infinite reverse;
+  }
+
+  .auth-canvas__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgb(37 99 235 / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(37 99 235 / 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 40%, transparent 100%);
+  }
+
+  /* ---------- 表单控件 ---------- */
+  .field-control {
+    width: 100%;
+    height: 2.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-line-strong);
+    background-color: #fff;
+    padding: 0 0.875rem;
+    font-size: 0.9375rem;
+    color: var(--color-ink);
+    transition:
+      border-color 0.18s ease,
+      box-shadow 0.18s ease,
+      background-color 0.18s ease;
+  }
+
+  .field-control::placeholder {
+    color: #a3b1c6;
+  }
+
+  .field-control:hover:not(:disabled) {
+    border-color: #c3d3e6;
+  }
+
+  .field-control:focus {
+    outline: none;
+    border-color: var(--color-brand-500);
+    box-shadow: 0 0 0 4px rgb(59 130 246 / 0.14);
+  }
+
+  .field-control:disabled {
+    background-color: #f4f7fb;
+    cursor: not-allowed;
+  }
+
+  .field-control[aria-invalid='true'] {
+    border-color: var(--color-state-bad);
+  }
+
+  .field-control[aria-invalid='true']:focus {
+    box-shadow: 0 0 0 4px rgb(220 38 38 / 0.12);
+  }
+
+  /* ---------- 滚动条 ---------- */
+  .scroll-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd8e8 transparent;
+  }
+
+  .scroll-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scroll-thin::-webkit-scrollbar-thumb {
+    background-color: #cbd8e8;
+    border-radius: 9999px;
+  }
+
+  .scroll-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@keyframes auth-flow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes auth-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2.5%, -3%, 0) scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-canvas__flow,
+  .auth-canvas__orb {
+    animation: none;
+  }
+}
